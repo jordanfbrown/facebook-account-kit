@@ -3,8 +3,10 @@ require_relative './http'
 module Facebook
   module AccountKit
     class TokenExchanger
-      def initialize(authorization_code)
+      def initialize(authorization_code, app_id, app_secret)
         @authorization_code = authorization_code
+        @app_id = app_id
+        @app_secret = app_secret
       end
 
       def fetch_access_token
@@ -33,7 +35,7 @@ module Facebook
       end
 
       def app_access_token
-        ['AA', Configuration.facebook_app_id, Configuration.account_kit_app_secret].join('|')
+        ['AA', @app_id, @app_secret].join('|')
       end
     end
   end

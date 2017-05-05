@@ -4,8 +4,9 @@ require 'openssl'
 module Facebook
   module AccountKit
     class UserAccount
-      def initialize(access_token)
+      def initialize(access_token, app_secret)
         @access_token = access_token
+        @app_secret = app_secret
       end
 
       def fetch_user_info
@@ -25,7 +26,7 @@ module Facebook
 
       def secret_proof
         digest = OpenSSL::Digest.new('sha256')
-        OpenSSL::HMAC.hexdigest(digest, Configuration.account_kit_app_secret, @access_token)
+        OpenSSL::HMAC.hexdigest(digest, @app_secret, @access_token)
       end
 
       def compose_url
